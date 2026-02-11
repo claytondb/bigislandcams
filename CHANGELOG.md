@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0] - 2026-02-11
+
+### Changed
+- **Actually embedded webcams** instead of just linking to them!
+- USGS volcano cams now show live images directly (auto-refresh every 60s)
+- Added manual refresh button (🔄) for each image cam
+- Hilo Bay shows live Nest stream from Tsunami Museum
+- Kona Bay shows live image from KonaWeb
+- Outrigger Kona, Waikoloa, Hapuna, Mauna Kea Beach via Ozolio streams
+
+### Technical
+- USGS cams use direct image URLs: `/cams/{cam}/images/M.jpg`
+- Auto-refresh with cache-busting timestamps
+- Loading spinner overlay for manual refreshes
+- Iframe embeds for live video streams (Nest, Ozolio)
+
 ## [1.0.0] - 2026-02-11
 
 ### Added
