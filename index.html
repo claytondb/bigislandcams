@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Island Cams - Live Webcams from Hawaiʻi Island 🌺</title>
+    <meta name="description" content="The ultimate collection of live webcams from the Big Island of Hawaii. Watch Kilauea volcano, Mauna Kea, beaches, and towns in real-time.">
+    <meta name="keywords" content="Big Island webcams, Hawaii live cameras, Kilauea webcam, Mauna Kea cam, Hilo webcam, Kona webcam, Hawaii volcano cam">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a5f7a;
+            --secondary: #159895;
+            --accent: #57c5b6;
+            --warm: #f97b22;
+            --lava: #ff4500;
+            --sand: #fef9ef;
+            --dark: #0a2647;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .island-time {
+            background: rgba(255,255,255,0.15);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 38, 71, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: var(--warm);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Section styles */
+        section {
+            margin-bottom: 50px;
+            scroll-margin-top: 80px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .section-desc {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-left: auto;
+        }
+
+        /* Camera grid */
+        .cam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .cam-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .cam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: var(--accent);
+        }
+
+        .cam-preview {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .cam-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cam-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .cam-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .cam-placeholder:hover {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+        }
+
+        .cam-placeholder .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .cam-placeholder .text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--lava);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .live-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .cam-info {
+            padding: 20px;
+        }
+
+        .cam-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .cam-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .cam-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cam-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .cam-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: color 0.2s;
+        }
+
+        .cam-link:hover {
+            color: #fff;
+        }
+
+        /* Featured cam */
+        .featured {
+            grid-column: 1 / -1;
+        }
+
+        .featured .cam-preview {
+            aspect-ratio: 21/9;
+        }
+
+        /* Refresh indicator */
+        .refresh-info {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.3);
+            margin-top: 50px;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: var(--accent);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .cam-grid { grid-template-columns: 1fr; }
+            nav { gap: 8px; padding: 15px; }
+            nav a { padding: 8px 15px; font-size: 0.85rem; }
+            .section-desc { display: none; }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #111;
+        }
+
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Map section */
+        .map-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .map-container h3 {
+            margin-bottom: 15px;
+        }
+
+        .region-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .region-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .region-btn:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌺 Big Island Cams</h1>
+        <p class="tagline">Live webcams from Hawaiʻi Island — for those who miss paradise</p>
+        <div class="island-time">
+            🕐 Hawaii Time: <span id="hawaii-time">--:--</span>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#volcanoes" class="active">🌋 Volcanoes</a>
+        <a href="#mauna-kea">⛰️ Mauna Kea</a>
+        <a href="#beaches">🏖️ Beaches</a>
+        <a href="#kona">🌴 Kona</a>
+        <a href="#hilo">🌧️ Hilo</a>
+        <a href="#resorts">🏨 Resorts</a>
+    </nav>
+
+    <main>
+        <!-- Volcanoes Section -->
+        <section id="volcanoes">
+            <div class="section-header">
+                <span class="section-icon">🌋</span>
+                <h2>Hawaiʻi Volcanoes National Park</h2>
+                <span class="section-desc">Kīlauea & Mauna Loa — Earth's most active volcanoes</span>
+            </div>
+            <div class="cam-grid">
+                <!-- Kilauea Summit -->
+                <div class="cam-card featured">
+                    <div class="cam-preview">
+                        <a href="https://www.nps.gov/media/webcam/view.htm?id=6AA1C994-BB25-26A1-A524367EA9E7D676" target="_blank" class="cam-placeholder">
+                            <span class="icon">🌋</span>
+                            <span class="text">Click to view Halemaʻumaʻu Crater Live</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Halemaʻumaʻu Crater — Kīlauea Summit</h3>
+                        <p>The legendary home of Pele, goddess of fire. This pan-tilt-zoom camera captures the active lava lake and Kaluapele (Kīlauea caldera) from the northeast rim.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Volcano Village</span>
+                            <span class="cam-tag">🔴 Active Lava</span>
+                            <span class="cam-tag">NPS/USGS</span>
+                        </div>
+                        <a href="https://www.nps.gov/havo/learn/photosmultimedia/webcams.htm" target="_blank" class="cam-link">View all NPS cams →</a>
+                    </div>
+                </div>
+
+                <!-- Mauna Loa Summit -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.usgs.gov/volcanoes/mauna-loa/webcams" target="_blank" class="cam-placeholder">
+                            <span class="icon">🏔️</span>
+                            <span class="text">Click to view Mauna Loa Summit</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Mokuʻāweoweo Caldera — Mauna Loa</h3>
+                        <p>Earth's largest active volcano. View the massive summit caldera from the north rim, operated by USGS Hawaiian Volcano Observatory.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 13,681 ft</span>
+                            <span class="cam-tag">USGS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mauna Loa Thermal -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.nps.gov/media/webcam/view.htm?id=3BFA7662-E5A8-E395-ABD45F3FF29D945E" target="_blank" class="cam-placeholder">
+                            <span class="icon">🔥</span>
+                            <span class="text">Click to view Thermal Camera</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Mauna Loa Thermal Camera</h3>
+                        <p>Infrared view of the summit caldera showing heat signatures. Temperature scale in Celsius, captures activity invisible to standard cameras.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">🌡️ Thermal</span>
+                            <span class="cam-tag">USGS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kilauea Southwest Rift -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.nps.gov/media/webcam/view.htm?id=CBF20C5F-EEA2-F4E0-1EBF6ADE74D2DABA" target="_blank" class="cam-placeholder">
+                            <span class="icon">🏜️</span>
+                            <span class="text">Click to view Southwest Rift Zone</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Kīlauea Southwest Rift Zone</h3>
+                        <p>View from the Kaʻū Desert looking northwest toward Uēkahuna summit. Volcanic cinder cones Puʻukoa'e and Maunaiki visible.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kaʻū Desert</span>
+                            <span class="cam-tag">NPS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Puuoo -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.nps.gov/media/webcam/view.htm?id=CB297CB0-CB5C-99F3-868877061AFB0B62" target="_blank" class="cam-placeholder">
+                            <span class="icon">🌿</span>
+                            <span class="text">Click to view Puʻuʻōʻō</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Puʻuʻōʻō — East Rift Zone</h3>
+                        <p>Site of the historic 1983-2018 eruption. Camera positioned on the northwest flank looking at this iconic volcanic cone.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 East Rift</span>
+                            <span class="cam-tag">Research Cam</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mauna Kea Section -->
+        <section id="mauna-kea">
+            <div class="section-header">
+                <span class="section-icon">⛰️</span>
+                <h2>Mauna Kea</h2>
+                <span class="section-desc">World's tallest mountain (from sea floor) — 33,500 ft total</span>
+            </div>
+            <div class="cam-grid">
+                <div class="cam-card featured">
+                    <div class="cam-preview">
+                        <a href="http://mkwc.ifa.hawaii.edu/current/cams/index.cgi?mode=multi" target="_blank" class="cam-placeholder">
+                            <span class="icon">🔭</span>
+                            <span class="text">Click to view Observatory Cams</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Mauna Kea Observatories</h3>
+                        <p>Multiple webcams from the world-renowned astronomical observatories at 13,796 ft elevation. Clear skies above 40% of Earth's atmosphere. Includes time-lapse videos.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Summit 13,796 ft</span>
+                            <span class="cam-tag">🌌 Stargazing</span>
+                            <span class="cam-tag">UH/IfA</span>
+                        </div>
+                        <a href="http://mkwc.ifa.hawaii.edu/current/cams/" target="_blank" class="cam-link">View all summit cams →</a>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="http://www.cfht.hawaii.edu/en/gallery/cloudcams/" target="_blank" class="cam-placeholder">
+                            <span class="icon">☁️</span>
+                            <span class="text">Click to view CFHT Cloud Cam</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>CFHT Cloud Camera</h3>
+                        <p>Canada-France-Hawaii Telescope cloud monitoring camera. Watch the clouds roll below the summit — you're above them!</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Summit</span>
+                            <span class="cam-tag">CFHT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.gemini.edu/sciops/telescopes-and-sites/weather/mauna-kea/webcams" target="_blank" class="cam-placeholder">
+                            <span class="icon">💎</span>
+                            <span class="text">Click to view Gemini Observatory</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Gemini Observatory</h3>
+                        <p>Views from the Gemini North telescope, one of the most powerful optical/infrared telescopes in the world.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Summit</span>
+                            <span class="cam-tag">Gemini</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Beaches Section -->
+        <section id="beaches">
+            <div class="section-header">
+                <span class="section-icon">🏖️</span>
+                <h2>Beaches & Surf</h2>
+                <span class="section-desc">300+ miles of coastline with black, white, and green sand beaches</span>
+            </div>
+            <div class="cam-grid">
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.surfline.com/surf-report/banyans/5842041f4e65fad6a77088a8" target="_blank" class="cam-placeholder">
+                            <span class="icon">🏄</span>
+                            <span class="text">Click to view Banyans Surf Cam</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Banyans — Kailua-Kona</h3>
+                        <p>Famous reef break where pro surfer Shane Dorian grew up. Hollow right and left breaks. Best surfing on the Big Island.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kona Coast</span>
+                            <span class="cam-tag">🏄 Surfing</span>
+                            <span class="cam-tag">Surfline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.surfline.com/surf-report/kawaihae/584204204e65fad6a77088d5" target="_blank" class="cam-placeholder">
+                            <span class="icon">🌊</span>
+                            <span class="text">Click to view Kawaihae</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Kawaihae Harbor</h3>
+                        <p>North Kohala coast harbor and beach area. Popular surf spots nearby with views of the historic harbor.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kohala Coast</span>
+                            <span class="cam-tag">Surfline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.seehawaiilive.com/waikoloa-beach/" target="_blank" class="cam-placeholder">
+                            <span class="icon">🏝️</span>
+                            <span class="text">Click to view Waikoloa Beach</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Waikoloa Beach — ʻAnaehoʻomalu Bay</h3>
+                        <p>Beautiful A-Bay with ancient Hawaiian fishponds, palm-lined shores, and crystal clear water. Perfect for snorkeling.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kohala Coast</span>
+                            <span class="cam-tag">🐠 Snorkeling</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.seehawaiilive.com/hapuna-beach/" target="_blank" class="cam-placeholder">
+                            <span class="icon">🏖️</span>
+                            <span class="text">Click to view Hapuna Beach</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Hapuna Beach State Park</h3>
+                        <p>Consistently rated one of the best beaches in America. Half-mile of white sand, excellent swimming and bodyboarding.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kohala Coast</span>
+                            <span class="cam-tag">⭐ Top Beach</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kona Section -->
+        <section id="kona">
+            <div class="section-header">
+                <span class="section-icon">🌴</span>
+                <h2>Kona Coast</h2>
+                <span class="section-desc">Sunny west coast — coffee country, historic town, resort paradise</span>
+            </div>
+            <div class="cam-grid">
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="http://www.konaweb.com/index.shtml#WEBCAM" target="_blank" class="cam-placeholder">
+                            <span class="icon">⛵</span>
+                            <span class="text">Click to view Kailua Bay</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Kailua Bay — Downtown Kona</h3>
+                        <p>View of historic Kailua Bay near the pier. Heart of Kona town, home of the Ironman World Championship finish line.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kailua-Kona</span>
+                            <span class="cam-tag">🏃 Ironman</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.seehawaiilive.com/keauhou-bay/" target="_blank" class="cam-placeholder">
+                            <span class="icon">🐬</span>
+                            <span class="text">Click to view Keauhou Bay</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Keauhou Bay</h3>
+                        <p>From the Sheraton Kona Resort. Popular spot for manta ray night dives and dolphin watching. Historic Hawaiian bay.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 South Kona</span>
+                            <span class="cam-tag">🦈 Manta Rays</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.konabrewingco.com/kona-cam" target="_blank" class="cam-placeholder">
+                            <span class="icon">🍺</span>
+                            <span class="text">Click to view Kona Brewing</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Kona Brewing Company</h3>
+                        <p>Aloha hour vibes from the famous Kona Brewing pub. Watch the sunset over Kona with a cold Big Wave.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kailua-Kona</span>
+                            <span class="cam-tag">🍻 Brewery</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.magicsandskona.com/magic-sands-webcam/" target="_blank" class="cam-placeholder">
+                            <span class="icon">✨</span>
+                            <span class="text">Click to view Magic Sands</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Magic Sands Beach (La'aloa)</h3>
+                        <p>The "disappearing sands" beach — waves can remove all sand overnight! Great bodyboarding when conditions are right.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 South Kona</span>
+                            <span class="cam-tag">🏄 Bodyboard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hilo Section -->
+        <section id="hilo">
+            <div class="section-header">
+                <span class="section-icon">🌧️</span>
+                <h2>Hilo & East Side</h2>
+                <span class="section-desc">Lush rainforest side — waterfalls, farmers markets, old Hawaii charm</span>
+            </div>
+            <div class="cam-grid">
+                <div class="cam-card featured">
+                    <div class="cam-preview">
+                        <a href="http://tsunami.org/hilobaycam/" target="_blank" class="cam-placeholder">
+                            <span class="icon">🌊</span>
+                            <span class="text">Click to view Hilo Bay Live</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Hilo Bay — Pacific Tsunami Museum</h3>
+                        <p>Stunning rooftop view of Hilo Bay from the historic Tsunami Museum. Watch cruise ships, rainbows, and the occasional shower roll through.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Downtown Hilo</span>
+                            <span class="cam-tag">🌈 Rainbow Capital</span>
+                            <span class="cam-tag">Museum</span>
+                        </div>
+                        <a href="http://tsunami.org/" target="_blank" class="cam-link">Visit Tsunami Museum →</a>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.surfline.com/surf-report/honolii/5842041f4e65fad6a770889f" target="_blank" class="cam-placeholder">
+                            <span class="icon">🏄</span>
+                            <span class="text">Click to view Honoli'i</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Honoli'i Beach Park</h3>
+                        <p>Hilo's premier surf spot. Fast, hollow river mouth break best in winter months. Local favorite with black sand.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 North Hilo</span>
+                            <span class="cam-tag">🏄 Surfing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resorts Section -->
+        <section id="resorts">
+            <div class="section-header">
+                <span class="section-icon">🏨</span>
+                <h2>Resorts & Hotels</h2>
+                <span class="section-desc">Luxury resort views from the Kohala Coast</span>
+            </div>
+            <div class="cam-grid">
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.hiltonwaikoloavillage.com/webcam" target="_blank" class="cam-placeholder">
+                            <span class="icon">🐬</span>
+                            <span class="text">Click to view Hilton Waikoloa</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Hilton Waikoloa Village</h3>
+                        <p>Multiple cams showing the oceanfront terrace, cabanas, Buddha Point, and Waiulua Bay. Watch dolphins in the lagoon!</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Waikoloa</span>
+                            <span class="cam-tag">🐬 Dolphins</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.maunakearesort.com/webcam/" target="_blank" class="cam-placeholder">
+                            <span class="icon">⛳</span>
+                            <span class="text">Click to view Mauna Kea Resort</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Mauna Kea Beach Hotel</h3>
+                        <p>Iconic resort with world-famous golf course. Views of Kauna'oa Bay, one of the most beautiful beaches on the island.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kohala Coast</span>
+                            <span class="cam-tag">⛳ Golf</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <a href="https://www.fairmont.com/orchid-hawaii/photos-videos/webcam/" target="_blank" class="cam-placeholder">
+                            <span class="icon">🌺</span>
+                            <span class="text">Click to view Fairmont Orchid</span>
+                        </a>
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Fairmont Orchid</h3>
+                        <p>Elegant beachfront resort on the Kohala Coast. Watch sea turtles basking on the beach and stunning Pacific sunsets.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kohala Coast</span>
+                            <span class="cam-tag">🐢 Sea Turtles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="refresh-info">
+            💡 Most cameras update every 30-60 seconds. Some require clicking through to the source site.
+        </div>
+    </main>
+
+    <footer>
+        <p>Made with 🌺 aloha for everyone missing the Big Island</p>
+        <p>Webcams provided by NPS, USGS, Surfline, and local businesses</p>
+        <p><a href="https://github.com/claytondb/bigislandcams">View on GitHub</a></p>
+    </footer>
+
+    <script>
+        // Update Hawaii time
+        function updateHawaiiTime() {
+            const now = new Date();
+            const hawaiiTime = now.toLocaleString('en-US', {
+                timeZone: 'Pacific/Honolulu',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('hawaii-time').textContent = hawaiiTime;
+        }
+        updateHawaiiTime();
+        setInterval(updateHawaiiTime, 1000);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+                
+                // Update active state
+                document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // Update active nav on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
