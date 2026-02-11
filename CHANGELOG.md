@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.3.0] - 2026-02-11
+
+### Added
+- **New Surf Cams section** with dedicated navigation
+- **MEGA Lab Underwater Reef Cam** - 24/7 underwater livestream from NELHA (YouTube)
+- **Magic Sands Beach** (Surfline) - Popular Kona beach
+- **Lyman's Surf** (Surfline) - Left-hand point break
+- **Honl's Beach** (Surfline) - Kona beach break
+- **Banyans full-res cam** (Surfline) - Where Shane Dorian grew up surfing
+
+### Changed
+- Moved surf cams to dedicated section
+- Reordered navigation: Featured → Volcanoes → Kona → Surf → Hilo → Resorts
+- Updated footer credits to include all cam sources
+
+### Fixed
+- External link styling for Kailua Bay and Tsunami Museum
+- Ozolio CSS cropping now hides navigation properly
+- Grand Naniloa autoplay enabled
+
 ## [1.2.0] - 2026-02-11
 
 ### Fixed

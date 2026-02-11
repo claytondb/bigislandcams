@@ -252,9 +252,10 @@
 
     <nav>
         <a href="#featured" class="active">⭐ Featured</a>
-        <a href="#hilo">🌧️ Hilo</a>
         <a href="#volcanoes">🌋 Volcanoes</a>
         <a href="#kona">🌴 Kona</a>
+        <a href="#surf">🏄 Surf</a>
+        <a href="#hilo">🌧️ Hilo</a>
         <a href="#resorts">🏨 Resorts</a>
     </nav>
 
@@ -445,6 +446,108 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Magic Sands Beach -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <img id="cam-magic" src="https://camstills.cdn-surfline.com/us-west-2/hi-magicsbeach/latest_full.jpg" alt="Magic Sands Beach">
+                        <span class="live-badge">LIVE</span>
+                        <button class="refresh-btn" onclick="refreshCam('cam-magic')">🔄</button>
+                        <div class="loading-overlay" id="loading-cam-magic"><div class="spinner"></div></div>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Magic Sands Beach (Laaloa)</h3>
+                        <p>Popular beach that "disappears" in winter storms! Great bodyboarding spot with reliable shore break.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kailua-Kona</span>
+                            <span class="cam-tag">🏖️ Beach</span>
+                            <span class="cam-tag">Surfline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MEGA Lab Underwater Reef Cam - Featured -->
+                <div class="cam-card featured">
+                    <div class="cam-preview">
+                        <iframe src="https://www.youtube.com/embed/UFA_SYoLqtk?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <span class="live-badge">LIVE 🐠</span>
+                    </div>
+                    <div class="cam-info">
+                        <h3>🐟 MEGA Lab Underwater Reef Cam</h3>
+                        <p>24/7 underwater camera at NELHA (Natural Energy Lab). Watch Hawaii's incredible marine life and coral reefs in real-time!</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kona Coast</span>
+                            <span class="cam-tag">🐠 Underwater</span>
+                            <span class="cam-tag">MEGA Lab</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Surf Cams Section -->
+        <section id="surf">
+            <div class="section-header">
+                <span class="section-icon">🏄</span>
+                <h2>Surf Cams</h2>
+            </div>
+            <div class="cam-grid">
+                <!-- Banyans -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <img id="cam-banyans2" src="https://camstills.cdn-surfline.com/us-west-2/hi-banyans/latest_full.jpg" alt="Banyans Surf Break">
+                        <span class="live-badge">LIVE</span>
+                        <button class="refresh-btn" onclick="refreshCam('cam-banyans2')">🔄</button>
+                        <div class="loading-overlay" id="loading-cam-banyans2"><div class="spinner"></div></div>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Banyans — Kona</h3>
+                        <p>Classic Kona surf break. Hollow rights and fun lefts on a reef. Where Shane Dorian grew up surfing!</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kailua-Kona</span>
+                            <span class="cam-tag">🏄 Reef Break</span>
+                            <span class="cam-tag">Surfline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lymans -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <img id="cam-lymans" src="https://camstills.cdn-surfline.com/us-west-2/hi-lymans/latest_full.jpg" alt="Lymans Surf">
+                        <span class="live-badge">LIVE</span>
+                        <button class="refresh-btn" onclick="refreshCam('cam-lymans')">🔄</button>
+                        <div class="loading-overlay" id="loading-cam-lymans"><div class="spinner"></div></div>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Lyman's — Kona</h3>
+                        <p>Fun left-hand point break. Great for longboarders and beginner/intermediate surfers.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kailua-Kona</span>
+                            <span class="cam-tag">🏄 Point Break</span>
+                            <span class="cam-tag">Surfline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Honls -->
+                <div class="cam-card">
+                    <div class="cam-preview">
+                        <img id="cam-honls" src="https://camstills.cdn-surfline.com/us-west-2/hi-honls/latest_full.jpg" alt="Honls Beach">
+                        <span class="live-badge">LIVE</span>
+                        <button class="refresh-btn" onclick="refreshCam('cam-honls')">🔄</button>
+                        <div class="loading-overlay" id="loading-cam-honls"><div class="spinner"></div></div>
+                    </div>
+                    <div class="cam-info">
+                        <h3>Honl's Beach — Kona</h3>
+                        <p>Fun beach break just south of downtown Kona. Popular with locals and visitors alike.</p>
+                        <div class="cam-meta">
+                            <span class="cam-tag">📍 Kailua-Kona</span>
+                            <span class="cam-tag">🏄 Beach Break</span>
+                            <span class="cam-tag">Surfline</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -556,31 +659,13 @@
                     </div>
                 </div>
 
-                <!-- Banyans Surf Cam -->
-                <div class="cam-card">
-                    <div class="cam-preview">
-                        <img id="cam-banyans" src="https://camstills.cdn-surfline.com/us-west-2/hi-banyans/latest_small.jpg" alt="Banyans Surf Break">
-                        <span class="live-badge">LIVE</span>
-                        <button class="refresh-btn" onclick="refreshCam('cam-banyans')">🔄</button>
-                        <div class="loading-overlay" id="loading-cam-banyans"><div class="spinner"></div></div>
-                    </div>
-                    <div class="cam-info">
-                        <h3>Banyans — Kona Surf Break</h3>
-                        <p>Popular surf spot in Kona. Check the waves before heading out!</p>
-                        <div class="cam-meta">
-                            <span class="cam-tag">📍 Kona</span>
-                            <span class="cam-tag">🏄 Surfing</span>
-                            <span class="cam-tag">Surfline</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
 
     <footer>
         <p>Made with 🌺 aloha for everyone missing the Big Island</p>
-        <p>Webcams provided by USGS, NPS, KonaWeb, Ozolio, and Pacific Tsunami Museum</p>
+        <p>Webcams provided by USGS, NPS, EarthCam, Ozolio, Surfline, MEGA Lab, and more</p>
         <p><a href="https://github.com/claytondb/bigislandcams">GitHub</a></p>
     </footer>
 
@@ -607,7 +692,10 @@
             'cam-ml': 'https://volcanoes.usgs.gov/observatories/hvo/cams/MLcam/images/M.jpg',
             'cam-mk': 'https://volcanoes.usgs.gov/observatories/hvo/cams/MKcam/images/M.jpg',
             'cam-m3': 'https://volcanoes.usgs.gov/observatories/hvo/cams/M3cam/images/M.jpg',
-            'cam-banyans': 'https://camstills.cdn-surfline.com/us-west-2/hi-banyans/latest_small.jpg'
+            'cam-magic': 'https://camstills.cdn-surfline.com/us-west-2/hi-magicsbeach/latest_full.jpg',
+            'cam-banyans2': 'https://camstills.cdn-surfline.com/us-west-2/hi-banyans/latest_full.jpg',
+            'cam-lymans': 'https://camstills.cdn-surfline.com/us-west-2/hi-lymans/latest_full.jpg',
+            'cam-honls': 'https://camstills.cdn-surfline.com/us-west-2/hi-honls/latest_full.jpg'
         };
 
         // Refresh a single camera
