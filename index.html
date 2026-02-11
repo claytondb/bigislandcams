@@ -209,13 +209,34 @@
     </header>
 
     <nav>
-        <a href="#volcanoes" class="active">🌋 Volcanoes</a>
-        <a href="#kona">🌴 Kona</a>
+        <a href="#featured" class="active">⭐ Featured</a>
         <a href="#hilo">🌧️ Hilo</a>
+        <a href="#volcanoes">🌋 Volcanoes</a>
+        <a href="#kona">🌴 Kona</a>
         <a href="#resorts">🏨 Resorts</a>
     </nav>
 
     <main>
+        <!-- Hero Featured Cam -->
+        <section id="featured" style="margin-bottom: 30px;">
+            <div class="cam-card" style="max-width: 900px; margin: 0 auto;">
+                <div class="cam-preview" style="aspect-ratio: 16/9;">
+                    <iframe src="https://api.wetmet.net/widgets/stream/frame.php?uid=b7b94d0f1e1a1ec71dc4e59e1f1db9d0" allowfullscreen></iframe>
+                    <span class="live-badge">LIVE STREAM</span>
+                </div>
+                <div class="cam-info">
+                    <h3>🌟 Hilo Live — Hawaii News Now Weather Cam</h3>
+                    <p>Live streaming weather camera overlooking Hilo, the heart of the Big Island's east side. Watch the weather roll in over the rainiest city in America!</p>
+                    <div class="cam-meta">
+                        <span class="cam-tag">📍 Hilo</span>
+                        <span class="cam-tag">🌧️ Live Weather</span>
+                        <span class="cam-tag">⭐ Best Quality</span>
+                        <span class="cam-tag">HNN</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="note">
             📷 Images auto-refresh every 60 seconds • Click 🔄 to refresh manually • Some cams are still images updated every few minutes
         </div>
@@ -264,24 +285,6 @@
                     </div>
                 </div>
 
-                <!-- Kilauea Thermal -->
-                <div class="cam-card">
-                    <div class="cam-preview">
-                        <img id="cam-f1" src="https://volcanoes.usgs.gov/observatories/hvo/cams/F1cam/images/M.jpg" alt="Kilauea Thermal">
-                        <span class="live-badge">THERMAL</span>
-                        <button class="refresh-btn" onclick="refreshCam('cam-f1')">🔄</button>
-                        <div class="loading-overlay" id="loading-cam-f1"><div class="spinner"></div></div>
-                    </div>
-                    <div class="cam-info">
-                        <h3>Kīlauea Thermal Camera</h3>
-                        <p>Infrared view showing heat signatures. Sees through volcanic gas better than visible light cameras.</p>
-                        <div class="cam-meta">
-                            <span class="cam-tag">🌡️ Thermal</span>
-                            <span class="cam-tag">USGS</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Kilauea K2 -->
                 <div class="cam-card">
                     <div class="cam-preview">
@@ -313,24 +316,6 @@
                         <p>Earth's largest active volcano. View of the summit caldera from the northwest rim at 13,681 ft elevation.</p>
                         <div class="cam-meta">
                             <span class="cam-tag">📍 13,681 ft</span>
-                            <span class="cam-tag">USGS</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mauna Loa Thermal -->
-                <div class="cam-card">
-                    <div class="cam-preview">
-                        <img id="cam-mt" src="https://volcanoes.usgs.gov/observatories/hvo/cams/MTcam/images/M.jpg" alt="Mauna Loa Thermal">
-                        <span class="live-badge">THERMAL</span>
-                        <button class="refresh-btn" onclick="refreshCam('cam-mt')">🔄</button>
-                        <div class="loading-overlay" id="loading-cam-mt"><div class="spinner"></div></div>
-                    </div>
-                    <div class="cam-info">
-                        <h3>Mauna Loa Thermal Camera</h3>
-                        <p>Infrared view of Mokuʻāweoweo Caldera. Temperature scale in Celsius, up to 500°C (932°F).</p>
-                        <div class="cam-meta">
-                            <span class="cam-tag">🌡️ Thermal</span>
                             <span class="cam-tag">USGS</span>
                         </div>
                     </div>
@@ -443,23 +428,6 @@
                     </div>
                 </div>
 
-                <!-- Hawaii News Now Hilo -->
-                <div class="cam-card">
-                    <div class="cam-preview">
-                        <iframe src="https://api.wetmet.net/widgets/stream/frame.php?uid=b7b94d0f1e1a1ec71dc4e59e1f1db9d0" allowfullscreen></iframe>
-                        <span class="live-badge">LIVE</span>
-                    </div>
-                    <div class="cam-info">
-                        <h3>Hilo Weather Cam — Hawaii News Now</h3>
-                        <p>Live weather camera from Hawaii News Now overlooking the Hilo area. Great for checking current conditions on the rainy side.</p>
-                        <div class="cam-meta">
-                            <span class="cam-tag">📍 Hilo</span>
-                            <span class="cam-tag">🌧️ Weather</span>
-                            <span class="cam-tag">HNN</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Grand Naniloa Hilo Bay -->
                 <div class="cam-card">
                     <div class="cam-preview">
@@ -564,10 +532,8 @@
         const camUrls = {
             'cam-v2': 'https://volcanoes.usgs.gov/observatories/hvo/cams/V2cam/images/M.jpg',
             'cam-kw': 'https://volcanoes.usgs.gov/observatories/hvo/cams/KWcam/images/M.jpg',
-            'cam-f1': 'https://volcanoes.usgs.gov/observatories/hvo/cams/F1cam/images/M.jpg',
             'cam-k2': 'https://volcanoes.usgs.gov/observatories/hvo/cams/K2cam/images/M.jpg',
             'cam-ml': 'https://volcanoes.usgs.gov/observatories/hvo/cams/MLcam/images/M.jpg',
-            'cam-mt': 'https://volcanoes.usgs.gov/observatories/hvo/cams/MTcam/images/M.jpg',
             'cam-mk': 'https://volcanoes.usgs.gov/observatories/hvo/cams/MKcam/images/M.jpg',
             'cam-m3': 'https://volcanoes.usgs.gov/observatories/hvo/cams/M3cam/images/M.jpg',
             'cam-kona': 'https://www.konaweb.com/cam/guardian/58.jpg'
