@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0] - 2026-02-11
+
+### Added
+- **Mauna Kea Observatory section** with dedicated navigation
+- **Subaru-Asahi StarCam** (YouTube) - 24/7 East view from summit, meteor showers & Milky Way
+- **CFHT-Asahi StarCam** (YouTube) - 24/7 West view from summit, sunset views
+- **Kahalu'u Bay** (Surfline) - Best snorkeling beach on Big Island, sea turtles!
+
+### Changed
+- Navigation reordered: Featured → Volcanoes → Observatory → Kona → Surf → Hilo → Resorts
+- Added viewing tip for observatory cams (best after 7pm HST)
+
 ## [1.3.0] - 2026-02-11
 
 ### Added
