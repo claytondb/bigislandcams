@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.2.0] - 2026-02-11
+
+### Fixed
+- **Kailua Bay Downtown Kona** - Replaced broken KonaWeb image with SkylineWebcams embed
+- **Outrigger Kona** - Replaced with Keauhou Bay (Fair Wind) cam using working Ozolio ID
+- **Hilo Bay Pacific Tsunami Museum** - Fixed with HLS player embed for Nest/Dropcam stream
+- **Hilo Bay South Grand Naniloa** - Fixed HTTP→HTTPS for mixed content issue
+- **Waikoloa Beach Marriott** - Updated to working Ozolio ID (MLXV000000AE)
+- **Hapuna Beach** - Updated to working Ozolio ID (DHUH00000548)
+- **Mauna Kea Beach Hotel** - Replaced with Banyans Surfline cam (hotel cam unavailable during renovation)
+
+### Added
+- **Hilton Waikoloa Village Lagoon** - Featured EarthCam showing sea turtles in saltwater lagoon
+- **Banyans Surf Cam** - Surfline still image with auto-refresh
+
+### Changed
+- Resorts section now leads with Hilton Waikoloa (best working stream)
+- Removed broken relay.ozolio.com URLs, using direct ozolio.com/explore/ embeds
+
 ## [1.1.0] - 2026-02-11
 
 ### Changed
