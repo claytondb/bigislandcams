@@ -139,6 +139,44 @@
             opacity: 0.8;
             margin-bottom: 10px;
         }
+        /* External link preview for cams that don't embed well */
+        .external-link-preview {
+            background: linear-gradient(135deg, rgba(26,95,122,0.9) 0%, rgba(10,38,71,0.95) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .external-cam-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            padding: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.05);
+        }
+        .external-cam-link:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: scale(1.05);
+        }
+        .external-cam-link .external-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .external-cam-link .external-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .external-cam-link .external-subtext {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
         .live-badge {
             position: absolute;
             top: 8px;
@@ -691,11 +729,14 @@
                     </div>
                 </div>
 
-                <!-- Waikoloa Beach Marriott - with Ozolio cropping -->
+                <!-- Waikoloa Beach Marriott - External Link (Ozolio embeds show timelapse) -->
                 <div class="cam-card">
-                    <div class="cam-preview ozolio-crop">
-                        <iframe src="https://www.ozolio.com/explore/MLXV000000AE" allow="autoplay" allowfullscreen></iframe>
-                        <span class="live-badge">LIVE</span>
+                    <div class="cam-preview external-link-preview">
+                        <a href="https://marriott.ozolio.com/waikoloa-beach-marriott-resort-spa/" target="_blank" rel="noopener" class="external-cam-link">
+                            <span class="external-icon">🏨</span>
+                            <span class="external-text">View Live Webcam</span>
+                            <span class="external-subtext">Opens in new tab</span>
+                        </a>
                     </div>
                     <div class="cam-info">
                         <h3>Waikoloa Beach Marriott</h3>
@@ -703,16 +744,19 @@
                         <div class="cam-meta">
                             <span class="cam-tag">📍 Waikoloa</span>
                             <span class="cam-tag">🐠 Snorkeling</span>
-                            <span class="cam-tag">Ozolio</span>
+                            <span class="cam-tag">Marriott</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Hapuna Beach - with Ozolio cropping -->
+                <!-- Hapuna Beach - External Link (Ozolio embeds show timelapse) -->
                 <div class="cam-card">
-                    <div class="cam-preview ozolio-crop">
-                        <iframe src="https://www.ozolio.com/explore/DHUH00000548" allow="autoplay" allowfullscreen></iframe>
-                        <span class="live-badge">LIVE</span>
+                    <div class="cam-preview external-link-preview">
+                        <a href="https://marriott.ozolio.com/westin-hapuna-beach-resort/" target="_blank" rel="noopener" class="external-cam-link">
+                            <span class="external-icon">🏖️</span>
+                            <span class="external-text">View Live Webcam</span>
+                            <span class="external-subtext">Opens in new tab</span>
+                        </a>
                     </div>
                     <div class="cam-info">
                         <h3>Hapuna Beach — Westin Resort</h3>
@@ -720,7 +764,7 @@
                         <div class="cam-meta">
                             <span class="cam-tag">📍 Kohala Coast</span>
                             <span class="cam-tag">⭐ Top Beach</span>
-                            <span class="cam-tag">Ozolio</span>
+                            <span class="cam-tag">Marriott</span>
                         </div>
                     </div>
                 </div>

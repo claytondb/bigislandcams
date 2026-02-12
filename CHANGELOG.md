@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1] - 2026-02-12
+
+### Fixed
+- **Hapuna Beach & Waikoloa Marriott cams** — Ozolio explore embeds were showing timelapse/stale footage instead of live feeds. Replaced with external links to official Marriott Ozolio pages which have proper live players.
+
+### Changed
+- Added new CSS styles for external link preview cards
+
 ## [1.4.0] - 2026-02-11
 
 ### Added
