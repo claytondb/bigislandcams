@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Big Island Cams - Live Webcams from Hawaiʻi Island 🌺</title>
     <meta name="description" content="The ultimate collection of live webcams from the Big Island of Hawaii. Watch Kilauea volcano, Mauna Kea, beaches, and towns in real-time.">
+    
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:title" content="Big Island Cams - Live Hawaii Webcams 🌺">
+    <meta property="og:description" content="Live webcams from the Big Island of Hawaii. Watch Kilauea volcano, Mauna Kea stars, beaches, and surf in real-time!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://bigislandcams.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- PWA -->
+    <meta name="theme-color" content="#1a5f7a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -234,6 +249,92 @@
             justify-content: center;
         }
         .refresh-btn:hover { background: rgba(0,0,0,0.8); }
+        
+        /* Favorite button */
+        .fav-btn {
+            position: absolute;
+            top: 8px;
+            right: 45px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .fav-btn:hover { background: rgba(0,0,0,0.8); }
+        .fav-btn.active { color: #ff4757; background: rgba(255,71,87,0.3); }
+        
+        /* Share button */
+        .share-btn {
+            position: absolute;
+            top: 8px;
+            right: 80px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .share-btn:hover { background: rgba(0,0,0,0.8); }
+        
+        /* Fullscreen mode */
+        .cam-card.fullscreen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            border-radius: 0;
+            margin: 0;
+            max-width: none;
+        }
+        .cam-card.fullscreen .cam-preview { aspect-ratio: auto; height: calc(100vh - 80px); }
+        .cam-card.fullscreen .cam-info { background: rgba(0,0,0,0.9); }
+        .fullscreen-btn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .fullscreen-btn:hover { background: rgba(0,0,0,0.8); }
+        
+        /* Favorites section */
+        #favorites { display: none; }
+        #favorites.has-favs { display: block; }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0,0,0,0.9);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 2000;
+            transition: transform 0.3s ease;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
         .loading-overlay {
             position: absolute;
             inset: 0;
@@ -289,6 +390,7 @@
     </header>
 
     <nav>
+        <a href="#favorites" id="nav-favorites" style="display:none">❤️ Favorites</a>
         <a href="#featured" class="active">⭐ Featured</a>
         <a href="#volcanoes">🌋 Volcanoes</a>
         <a href="#observatory">🔭 Observatory</a>
@@ -299,6 +401,15 @@
     </nav>
 
     <main>
+        <!-- Favorites Section (populated dynamically) -->
+        <section id="favorites">
+            <div class="section-header">
+                <span class="section-icon">❤️</span>
+                <h2>Your Favorites</h2>
+            </div>
+            <div id="favorites-grid" class="cam-grid"></div>
+        </section>
+
         <!-- Hero Featured Cam -->
         <section id="featured" style="margin-bottom: 30px;">
             <div class="cam-card" style="max-width: 900px; margin: 0 auto;">
@@ -773,6 +884,9 @@
         </section>
     </main>
 
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
     <footer>
         <p>Made with 🌺 aloha for everyone missing the Big Island</p>
         <p>Webcams provided by USGS, NPS, EarthCam, Ozolio, Surfline, MEGA Lab, and more</p>
@@ -865,6 +979,172 @@
                 }
             });
         });
+
+        // Toast notification
+        function showToast(message, duration = 2000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), duration);
+        }
+
+        // Favorites management
+        function getFavorites() {
+            try { return JSON.parse(localStorage.getItem('bigisland-favorites') || '[]'); }
+            catch { return []; }
+        }
+
+        function saveFavorite(camId, camName) {
+            const favs = getFavorites();
+            const idx = favs.findIndex(f => f.id === camId);
+            if (idx === -1) {
+                favs.push({ id: camId, name: camName, added: Date.now() });
+                showToast(`❤️ Added ${camName} to favorites`);
+            } else {
+                favs.splice(idx, 1);
+                showToast(`💔 Removed from favorites`);
+            }
+            localStorage.setItem('bigisland-favorites', JSON.stringify(favs));
+            updateFavoritesUI();
+            return idx === -1; // true if added
+        }
+
+        function isFavorite(camId) {
+            return getFavorites().some(f => f.id === camId);
+        }
+
+        function updateFavoritesUI() {
+            const favs = getFavorites();
+            const favSection = document.getElementById('favorites');
+            const favNav = document.getElementById('nav-favorites');
+            const favGrid = document.getElementById('favorites-grid');
+            
+            // Update all favorite buttons
+            document.querySelectorAll('.fav-btn').forEach(btn => {
+                const camId = btn.dataset.camId;
+                btn.classList.toggle('active', isFavorite(camId));
+                btn.textContent = isFavorite(camId) ? '❤️' : '🤍';
+            });
+            
+            // Show/hide favorites section
+            if (favs.length > 0) {
+                favSection.classList.add('has-favs');
+                favNav.style.display = 'inline-block';
+                
+                // Clone favorite cams to favorites section
+                favGrid.innerHTML = '';
+                favs.forEach(fav => {
+                    const original = document.querySelector(`[data-cam-id="${fav.id}"]`)?.closest('.cam-card');
+                    if (original) {
+                        const clone = original.cloneNode(true);
+                        clone.classList.remove('featured');
+                        // Update clone's buttons
+                        const cloneFav = clone.querySelector('.fav-btn');
+                        if (cloneFav) {
+                            cloneFav.classList.add('active');
+                            cloneFav.textContent = '❤️';
+                        }
+                        favGrid.appendChild(clone);
+                    }
+                });
+                
+                // Re-attach event listeners to cloned buttons
+                attachCamButtons();
+            } else {
+                favSection.classList.remove('has-favs');
+                favNav.style.display = 'none';
+            }
+        }
+
+        // Add favorite/share/fullscreen buttons to all cam cards
+        function attachCamButtons() {
+            document.querySelectorAll('.cam-card').forEach((card, idx) => {
+                const preview = card.querySelector('.cam-preview');
+                const title = card.querySelector('h3')?.textContent || `Cam ${idx}`;
+                const camId = `cam-${idx}-${title.replace(/[^a-z0-9]/gi, '').substring(0, 20)}`;
+                
+                // Skip if already has buttons
+                if (preview.querySelector('.fav-btn')) return;
+                
+                // Add favorite button
+                const favBtn = document.createElement('button');
+                favBtn.className = 'fav-btn' + (isFavorite(camId) ? ' active' : '');
+                favBtn.textContent = isFavorite(camId) ? '❤️' : '🤍';
+                favBtn.dataset.camId = camId;
+                favBtn.title = 'Add to favorites';
+                favBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    saveFavorite(camId, title);
+                    favBtn.classList.toggle('active');
+                    favBtn.textContent = favBtn.classList.contains('active') ? '❤️' : '🤍';
+                };
+                preview.appendChild(favBtn);
+                
+                // Add share button
+                const shareBtn = document.createElement('button');
+                shareBtn.className = 'share-btn';
+                shareBtn.innerHTML = '↗';
+                shareBtn.title = 'Share this cam';
+                shareBtn.onclick = async (e) => {
+                    e.stopPropagation();
+                    const shareText = `🌺 Check out ${title} - live from the Big Island of Hawaii!\n\n`;
+                    const shareUrl = window.location.href.split('#')[0] + '#' + (card.closest('section')?.id || 'featured');
+                    
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({ title: `Big Island Cams - ${title}`, text: shareText, url: shareUrl });
+                        } catch {}
+                    } else {
+                        await navigator.clipboard.writeText(shareText + shareUrl);
+                        showToast('📋 Link copied!');
+                    }
+                };
+                preview.appendChild(shareBtn);
+                
+                // Add fullscreen button (only for image cams, not iframes)
+                const img = preview.querySelector('img');
+                if (img) {
+                    const fsBtn = document.createElement('button');
+                    fsBtn.className = 'fullscreen-btn';
+                    fsBtn.innerHTML = '⛶';
+                    fsBtn.title = 'Fullscreen';
+                    fsBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        if (card.classList.contains('fullscreen')) {
+                            card.classList.remove('fullscreen');
+                            document.body.style.overflow = '';
+                            fsBtn.innerHTML = '⛶';
+                        } else {
+                            card.classList.add('fullscreen');
+                            document.body.style.overflow = 'hidden';
+                            fsBtn.innerHTML = '✕';
+                        }
+                    };
+                    preview.appendChild(fsBtn);
+                }
+            });
+        }
+
+        // Initialize
+        attachCamButtons();
+        updateFavoritesUI();
+
+        // Escape to exit fullscreen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.cam-card.fullscreen').forEach(card => {
+                    card.classList.remove('fullscreen');
+                    document.body.style.overflow = '';
+                    const fsBtn = card.querySelector('.fullscreen-btn');
+                    if (fsBtn) fsBtn.innerHTML = '⛶';
+                });
+            }
+        });
+
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
     </script>
 </body>
 </html>

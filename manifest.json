@@ -1,0 +1,26 @@
+{
+  "name": "Big Island Cams - Live Hawaii Webcams",
+  "short_name": "Big Island Cams",
+  "description": "Live webcams from the Big Island of Hawaii. Watch Kilauea volcano, Mauna Kea, beaches, and surf in real-time!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a2647",
+  "theme_color": "#1a5f7a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "entertainment", "weather"],
+  "screenshots": [
+    {
+      "src": "screenshot.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg"
+    }
+  ]
+}
